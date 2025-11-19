@@ -1,5 +1,6 @@
 ﻿using Api.Data;
 using Api.Interfaces;
+using Api.ModelDto;
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,7 +32,7 @@ namespace Api.Repositories
             return film;
         }
 
-        public async Task<Film?> UpdateFilmAsync(int id, Film film)
+        public async Task<Film?> UpdateFilmAsync(int id, FilmDto film)
         {
             var existingFilm = await _context.Films.FindAsync(id);
             if (existingFilm == null) 
