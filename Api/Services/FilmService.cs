@@ -1,4 +1,5 @@
 ﻿using Api.Interfaces;
+using Api.ModelDto;
 using Api.Models;
 
 namespace Api.Services
@@ -27,7 +28,7 @@ namespace Api.Services
             return await _repository.AddFilmAsync(film);
         }
 
-        public async Task<Film?> UpdateFilmAsync(int id, Film film)
+        public async Task<Film?> UpdateFilmAsync(int id, FilmDto film)
         {
             return await _repository.UpdateFilmAsync(id, film);
         }

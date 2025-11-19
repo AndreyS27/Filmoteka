@@ -1,4 +1,5 @@
 ﻿using Api.Interfaces;
+using Api.ModelDto;
 using Api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -51,7 +52,7 @@ namespace Api.Controllers
         // Доступно только админу
         [HttpPut("{id}")]
         // [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateFilm(int id, Film film)
+        public async Task<IActionResult> UpdateFilm(int id, FilmDto film)
         {
             var updatedFilm = await _filmService.UpdateFilmAsync(id, film);
             if (updatedFilm == null)
