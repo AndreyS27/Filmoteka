@@ -1,10 +1,8 @@
-﻿namespace Api.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace Api.Models
 {
-    public class User
+    public class User : IdentityUser<int>
     {
-        public int Id { get; set; }
-        public string Username { get; set; } = string.Empty;
-        public string Email { get; set; } = null!;
-        public string PasswordHash { get; set; } = null!;
     }
 }
