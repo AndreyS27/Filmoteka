@@ -40,7 +40,7 @@ namespace Api.Controllers
         // POST: api/films
         // Доступно только админу
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PostFilm(Film film)
         {
             // добавить обработку ошибок
@@ -51,7 +51,7 @@ namespace Api.Controllers
         // PUT: api/films/id
         // Доступно только админу
         [HttpPut("{id}")]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateFilm(int id, FilmDto film)
         {
             var updatedFilm = await _filmService.UpdateFilmAsync(id, film);
@@ -66,7 +66,7 @@ namespace Api.Controllers
         // DELETE: api/films/id
         // Доступно только админу
         [HttpDelete("{id}")]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteFilm(int id)
         {
             bool deleted = await _filmService.DeleteFilmAsync(id);
