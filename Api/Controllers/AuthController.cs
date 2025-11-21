@@ -32,7 +32,14 @@ namespace Api.Controllers
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "User");
-                return Ok(new { message = "User registered successfully." });
+
+                var token = await _tokenService.GenerateTokenAsync(user);
+
+                return Ok(new 
+                { 
+                    message = "User registered successfully.",
+                    token
+                });
             }
 
             return BadRequest(result.Errors);
