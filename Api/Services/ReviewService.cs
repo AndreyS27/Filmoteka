@@ -1,4 +1,5 @@
 ﻿using Api.Interfaces;
+using Api.ModelDto;
 using Api.Models;
 
 namespace Api.Services
@@ -32,9 +33,19 @@ namespace Api.Services
             return await _reposritory.GetReviewsForFilmAsync(filmId);
         }
 
-        public async Task<Review> UpdateReviewAsync(Review review)
+        public async Task<bool> UpdateReviewAsync(int id, ReviewDto dto)
         {
-            return await _reposritory.UpdateReviewAsync(review);
+            var existingReview = await _reposritory.GetReviewByIdAsync(id);
+            if (existingReview == null)
+            {
+                return false;
+            }
+
+            existingReview.Text = dto.Text;
+            existingReview.Rating = dto.Rating;
+
+            await _reposritory.UpdateReviewAsync(existingReview);
+            return true;
         }
     }
 }

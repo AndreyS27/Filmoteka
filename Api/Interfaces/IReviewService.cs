@@ -1,4 +1,5 @@
-﻿using Api.Models;
+﻿using Api.ModelDto;
+using Api.Models;
 
 namespace Api.Interfaces
 {
@@ -7,7 +8,7 @@ namespace Api.Interfaces
         Task<IEnumerable<Review>> GetReviewsForFilmAsync(int filmId);
         Task<Review?> GetReviewByIdAsync(int id);
         Task<Review> AddReviewAsync(Review review);
-        Task<Review> UpdateReviewAsync(Review review);
+        Task<bool> UpdateReviewAsync(int id, ReviewDto dto);
         Task<bool> DeleteReviewAsync(int id);
     }
 }

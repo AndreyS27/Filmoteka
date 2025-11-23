@@ -32,7 +32,7 @@ namespace Api.Services
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Email, user.Email ?? ""),
-                    new Claim(ClaimTypes.Email, user.UserName ?? "")
+                    new Claim(ClaimTypes.Name, user.UserName ?? "")
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 Issuer = issuer,
