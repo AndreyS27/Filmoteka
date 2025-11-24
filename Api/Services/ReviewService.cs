@@ -8,14 +8,35 @@ namespace Api.Services
     {
         private readonly IReviewRepository _reposritory;
 
-        public ReviewService(IReviewRepository repository)
+        public ReviewService(IReviewRepository repository, IFilmRepository filmRepository)
         {
             _reposritory = repository;
         }
 
-        public async Task<Review> AddReviewAsync(Review review)
+        public async Task<ReviewDto> AddReviewAsync(int userId, int filmId, CreateReviewDto dto)
         {
-            return await _reposritory.AddReviewAsync(review);
+            var review = new Review
+            {
+                Text = dto.Text,
+                Rating = dto.Rating,
+                UserId = userId,
+                FilmId = filmId,
+            };
+
+            var createdReview = await _reposritory.AddReviewAsync(review);
+
+            return new ReviewDto
+            {
+                Id = createdReview.Id,
+                Text = createdReview.Text,
+                Rating = createdReview.Rating,
+                Author = new ReviewAuthorDto
+                {
+                    Id = createdReview.User.Id,
+                    UserName = createdReview.User.UserName,
+                    AvatarUrl = createdReview.User.AvatarUrl
+                }
+            };
         }
 
         public async Task<bool> DeleteReviewAsync(int id)

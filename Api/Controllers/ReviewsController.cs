@@ -26,18 +26,20 @@ namespace Api.Controllers
 
         [HttpPost("films/{filmId}")]
         [Authorize]
-        public async Task<IActionResult> Create([FromBody] Review review, int filmId)
+        public async Task<IActionResult> Create([FromBody] CreateReviewDto createReviewDto, int filmId)
         {
-            Review res = await _reviewService.AddReviewAsync(review);
-            if (res != null)
+            var userId = User.FindFirst("nameid")?.Value;
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int currentUserId))
             {
-                return Ok(res);
+                return Unauthorized();
             }
-            return Conflict("Не удалось создать отзыв");
+
+            var reviewDto = await _reviewService.AddReviewAsync(currentUserId, filmId, createReviewDto);
+
+            return CreatedAtAction(nameof(GetReviewById), new { filmId = filmId }, reviewDto);
         }
 
         [HttpGet("{id}")]
-        [Authorize]
         public async Task<ActionResult<Review>> GetReviewById(int id)
         {
             var res = await _reviewService.GetReviewByIdAsync(id);
