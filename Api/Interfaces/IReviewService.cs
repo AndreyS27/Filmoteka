@@ -5,7 +5,7 @@ namespace Api.Interfaces
 {
     public interface IReviewService
     {
-        Task<IEnumerable<Review>> GetReviewsForFilmAsync(int filmId);
+        Task<IEnumerable<ReviewDto>> GetReviewsForFilmAsync(int filmId);
         Task<Review?> GetReviewByIdAsync(int id);
         Task<Review> AddReviewAsync(Review review);
         Task<bool> UpdateReviewAsync(int id, ReviewDto dto);

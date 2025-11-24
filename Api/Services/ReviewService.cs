@@ -28,9 +28,21 @@ namespace Api.Services
             return await _reposritory.GetReviewByIdAsync(id);
         }
 
-        public async Task<IEnumerable<Review>> GetReviewsForFilmAsync(int filmId)
+        public async Task<IEnumerable<ReviewDto>> GetReviewsForFilmAsync(int filmId)
         {
-            return await _reposritory.GetReviewsForFilmAsync(filmId);
+            var reviews = await _reposritory.GetReviewsForFilmAsync(filmId);
+            return reviews.Select(r => new ReviewDto
+            {
+                Id = r.Id,
+                Text = r.Text,
+                Rating = r.Rating,
+                Author = new ReviewAuthorDto
+                {
+                    Id = r.UserId,
+                    UserName = r.User.UserName,
+                    AvatarUrl = r.User.AvatarUrl
+                }
+            }).ToList();
         }
 
         public async Task<bool> UpdateReviewAsync(int id, ReviewDto dto)

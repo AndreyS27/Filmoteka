@@ -18,7 +18,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("films/{filmId}")]
-        public async Task<ActionResult<IEnumerable<Review>>> GetReviews(int filmId)
+        public async Task<ActionResult<IEnumerable<ReviewDto>>> GetReviews(int filmId)
         {
             var reviews = await _reviewService.GetReviewsForFilmAsync(filmId);
             return Ok(reviews);
