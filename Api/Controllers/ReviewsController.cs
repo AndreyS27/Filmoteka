@@ -4,6 +4,7 @@ using Api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using static Api.Exceptions.ReviewExceptions;
 
 namespace Api.Controllers
 {
@@ -53,11 +54,27 @@ namespace Api.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<ActionResult<Review>> Update([FromBody] ReviewDto dto, int id)
+        public async Task<ActionResult<ReviewUpdateDto>> Update([FromBody] ReviewUpdateDto dto, int id)
         {
-            bool res = await _reviewService.UpdateReviewAsync(id, dto);
-            if (res) return Ok();
-            return NotFound();
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int currentUserId))
+            {
+                return Unauthorized();
+            }
+
+            try
+            {
+                var updatedReview = await _reviewService.UpdateReviewAsync(id, currentUserId, dto);
+                return Ok(updatedReview);
+            }
+            catch (ReviewNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (UnauthorizedReviewEditException)
+            {
+                return Forbid();
+            }
         }
 
         [HttpDelete("{id}")]

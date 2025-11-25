@@ -1,6 +1,7 @@
 ﻿using Api.Interfaces;
 using Api.ModelDto;
 using Api.Models;
+using static Api.Exceptions.ReviewExceptions;
 
 namespace Api.Services
 {
@@ -78,19 +79,31 @@ namespace Api.Services
             }).ToList();
         }
 
-        public async Task<bool> UpdateReviewAsync(int id, ReviewDto dto)
+        public async Task<ReviewUpdateDto?> UpdateReviewAsync(int id, int currentUserId, ReviewUpdateDto dto)
         {
             var existingReview = await _reposritory.GetReviewByIdAsync(id);
             if (existingReview == null)
             {
-                return false;
+                throw new ReviewNotFoundException();
             }
 
-            existingReview.Text = dto.Text;
-            existingReview.Rating = dto.Rating;
+            if (existingReview.UserId != currentUserId)
+            {
+                throw new UnauthorizedReviewEditException();
+            }
 
-            await _reposritory.UpdateReviewAsync(existingReview);
-            return true;
+            var updatedReview = await _reposritory.UpdateReviewAsync(id, dto.Text, dto.Rating);
+
+            if (updatedReview == null)
+            {
+                throw new ReviewNotFoundException();
+            }
+
+            return new ReviewUpdateDto
+            {
+                Rating = dto.Rating,
+                Text = dto.Text
+            };
         }
     }
 }
