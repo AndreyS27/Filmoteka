@@ -19,7 +19,9 @@ namespace Api.Repositories
         {
             _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
-            return review;
+            return await _context.Reviews
+                .Include(r => r.User)
+                .FirstAsync(r => r.Id == review.Id);
         }
 
         public async Task<bool> DeleteReviewAsync(int id)

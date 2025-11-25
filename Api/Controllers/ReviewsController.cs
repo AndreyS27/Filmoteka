@@ -3,6 +3,7 @@ using Api.ModelDto;
 using Api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Api.Controllers
 {
@@ -28,7 +29,7 @@ namespace Api.Controllers
         [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateReviewDto createReviewDto, int filmId)
         {
-            var userId = User.FindFirst("nameid")?.Value;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int currentUserId))
             {
                 return Unauthorized();
@@ -36,7 +37,7 @@ namespace Api.Controllers
 
             var reviewDto = await _reviewService.AddReviewAsync(currentUserId, filmId, createReviewDto);
 
-            return CreatedAtAction(nameof(GetReviewById), new { filmId = filmId }, reviewDto);
+            return CreatedAtAction(nameof(GetReviewById), new { id = filmId }, reviewDto);
         }
 
         [HttpGet("{id}")]
