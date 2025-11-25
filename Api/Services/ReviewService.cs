@@ -44,9 +44,21 @@ namespace Api.Services
             return await _reposritory.DeleteReviewAsync(id);
         }
 
-        public async Task<Review?> GetReviewByIdAsync(int id)
+        public async Task<ReviewDto> GetReviewByIdAsync(int id)
         {
-            return await _reposritory.GetReviewByIdAsync(id);
+            var review = await _reposritory.GetReviewByIdAsync(id);
+            return new ReviewDto
+            {
+                Id = review.Id,
+                Text = review.Text,
+                Rating = review.Rating,
+                Author = new ReviewAuthorDto
+                {
+                    Id = review.UserId,
+                    UserName = review.User.UserName,
+                    AvatarUrl = review.User.AvatarUrl
+                }
+            };
         }
 
         public async Task<IEnumerable<ReviewDto>> GetReviewsForFilmAsync(int filmId)

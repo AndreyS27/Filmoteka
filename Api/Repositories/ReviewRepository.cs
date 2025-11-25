@@ -39,7 +39,9 @@ namespace Api.Repositories
 
         public async Task<Review?> GetReviewByIdAsync(int id)
         {
-            return await _context.Reviews.FindAsync(id);
+            return await _context.Reviews
+                .Include(r => r.User)
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task<IEnumerable<Review>> GetReviewsForFilmAsync(int filmId)

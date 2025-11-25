@@ -41,7 +41,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Review>> GetReviewById(int id)
+        public async Task<ActionResult<ReviewDto>> GetReviewById(int id)
         {
             var res = await _reviewService.GetReviewByIdAsync(id);
             if (res != null)
