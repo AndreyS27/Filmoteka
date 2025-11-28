@@ -41,11 +41,22 @@ namespace Api.Controllers
         // Доступно только админу
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> PostFilm(Film film)
+        public async Task<IActionResult> PostFilm([FromBody] FilmDto createFilm)
         {
-            // добавить обработку ошибок
+            var film = new Film
+            {
+                Name = createFilm.Name,
+                Year = createFilm.Year,
+                Duration = createFilm.Duration,
+                Country = createFilm.Country,
+                Genre = createFilm.Genre,
+                Director = createFilm.Director,
+                Description = createFilm.Description,
+                PosterPath = createFilm.PosterPath
+            };
+
             var createdFilm = await _filmService.AddFilmAsync(film);
-            return Created();
+            return CreatedAtAction(nameof(GetFilmById), new {id = createdFilm.Id}, createdFilm);
         }
 
         // PUT: api/films/id
