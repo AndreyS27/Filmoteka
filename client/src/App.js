@@ -6,7 +6,7 @@ import HomePage from "./layout/HomePage/HomePage";
 import AboutPage from "./layout/AboutPage/AboutPage";
 import ProfilePage from "./layout/ProfilePage/ProfilePage";
 
-function App() {
+const App = () => {
   return (
     <AuthProvider>
         <div className="App">
@@ -20,6 +20,6 @@ function App() {
         </div>
     </AuthProvider>
   );
-}
+};
 
 export default App;
