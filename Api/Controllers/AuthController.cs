@@ -37,6 +37,8 @@ namespace Api.Controllers
 
                 return Ok(new 
                 { 
+                    user.Id,
+                    user.UserName,
                     message = "User registered successfully.",
                     token
                 });
