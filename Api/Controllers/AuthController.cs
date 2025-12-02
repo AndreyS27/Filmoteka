@@ -56,7 +56,7 @@ namespace Api.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
-                var token = _tokenService.GenerateTokenAsync(user);
+                var token = await _tokenService.GenerateTokenAsync(user);
                 var roles = await _userManager.GetRolesAsync(user);
 
                 return Ok(new { token, roles, user.Id, user.UserName });
