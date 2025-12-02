@@ -5,6 +5,7 @@ import LoginPage from "./layout/LoginPage/LoginPage";
 import HomePage from "./layout/HomePage/HomePage";
 import AboutPage from "./layout/AboutPage/AboutPage";
 import ProfilePage from "./layout/ProfilePage/ProfilePage";
+import RegistrationPage from "./layout/RegistrationPage/RegistrationPage";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/registration" element={<RegistrationPage />} />
           </Routes>
         </div>
     </AuthProvider>

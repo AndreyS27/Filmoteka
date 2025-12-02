@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 const baseApiUrl = "https://localhost:7181/api";
@@ -88,6 +88,7 @@ const LoginPage = () => {
             >
               {loading ? "Вход..." : "Войти"}
             </button>
+            <p className="text-center">Нет аккаунта? <Link to="/registration" className="link-primary">Зарегистрироваться</Link></p>
           </form>
         </div>
       </div>
