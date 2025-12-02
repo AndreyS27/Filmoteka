@@ -45,13 +45,13 @@ const HomePage = () => {
     return (
         <div className="container-fluid mt-2">
             <h1>Фильмы</h1>
-            <div className="row row-cols-2">
+            <div className="row row-cols-3">
                 {films.length === 0 ? (
                     <p>Список фильмов пуст</p>
                 ) : (
                     films.map((film) => (
-                        <div col>
-                            <div className="card m-3" key={film.id}>
+                        <div className="col" key={film.id}>
+                            <div className="card m-3" >
                                 <img src="https://placeholder.apptor.studio/20/15/product1.png" className="card-img-top" alt="..."></img>
                                     <div className="card-body">
                                         <h5 className="card-title">{film.name}</h5>
