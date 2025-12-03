@@ -32,16 +32,11 @@ namespace Api.Controllers
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "User");
+                var roles = await _userManager.GetRolesAsync(user);
 
                 var token = await _tokenService.GenerateTokenAsync(user);
 
-                return Ok(new 
-                { 
-                    user.Id,
-                    user.UserName,
-                    message = "User registered successfully.",
-                    token
-                });
+                return Ok(new { token, roles, user.Id, user.UserName, user.Email, user.AvatarUrl });
             }
 
             return BadRequest(result.Errors);
@@ -61,7 +56,7 @@ namespace Api.Controllers
                 var token = await _tokenService.GenerateTokenAsync(user);
                 var roles = await _userManager.GetRolesAsync(user);
 
-                return Ok(new { token, roles, user.Id, user.UserName });
+                return Ok(new { token, roles, user.Id, user.UserName, user.Email, user.AvatarUrl });
             }
 
             return Unauthorized(new { message = "Invalid email or password." });
