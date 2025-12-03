@@ -1,4 +1,7 @@
+import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
+
+const baseApiUrl = "https://localhost:7181/api";
 
 const AuthContext = createContext();
 
@@ -14,11 +17,21 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem('authToken');
         if (token) {
-            // сделать запрос к API чтобы получить данные пользователя
-            // заглушка
-            setUser({id:1, username:'John Doe'});
+            axios.get(`${baseApiUrl}/auth/me`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+                .then(response => {
+                    setUser(response.data);
+                })
+                .catch(() => {
+                    localStorage.removeItem('authToken');
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        } else {
+            setLoading(false);
         }
-        setLoading(false);
     }, []);
 
     const login = (userData, token) => {
@@ -32,7 +45,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{user, login, logout, loading}}>
+        <AuthContext.Provider value={{ user, login, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );

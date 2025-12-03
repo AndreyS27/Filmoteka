@@ -24,9 +24,9 @@ const LoginPage = () => {
         password
       });
 
-      const { token, id, userName } = response.data;
+      const { token, id, userName, email: userEmail, avatarUrl, roles } = response.data;
 
-      login({ id, username: userName }, token);
+      login({ id, username: userName, email: userEmail, avatarUrl, roles }, token);
 
       navigate("/")
     } catch (error) {
