@@ -1,7 +1,9 @@
 ﻿using Api.Interfaces;
 using Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Api.Controllers
 {
@@ -60,6 +62,32 @@ namespace Api.Controllers
             }
 
             return Unauthorized(new { message = "Invalid email or password." });
+        }
+
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<ActionResult> GetCurrentUser()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int currentUserId))
+            {
+                return Unauthorized();
+            }
+
+            var user = await _userManager.FindByIdAsync(currentUserId.ToString());
+            if (user == null) 
+                return NotFound();
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            return Ok(new
+            {
+                user.Id,
+                user.UserName,
+                user.Email,
+                user.AvatarUrl,
+                roles,
+            });
         }
     }
 }
