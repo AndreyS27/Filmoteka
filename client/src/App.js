@@ -1,11 +1,14 @@
-import Header from "./layout/components/Header";
+import Header from "./layout/Header/Header";
 import { AuthProvider } from "./layout/context/AuthContext";
 import { Route, Routes,  } from "react-router-dom";
 import LoginPage from "./layout/LoginPage/LoginPage";
 import HomePage from "./layout/HomePage/HomePage";
 import AboutPage from "./layout/AboutPage/AboutPage";
-import ProfilePage from "./layout/ProfilePage/ProfilePage";
 import RegistrationPage from "./layout/RegistrationPage/RegistrationPage";
+import AdminRoute from "./layout/components/AdminRoute";
+import AdminProfile from "./layout/AdminProfile/AdminProfile";
+import ProtectedRoute from "./layout/components/ProtectedRoute";
+import UserProfile from "./layout/UserProfile/UserProfile";
 
 const App = () => {
   return (
@@ -16,8 +19,23 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/registration" element={<RegistrationPage />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <UserProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <AdminProfile />
+                </AdminRoute>
+              }
+            />
           </Routes>
         </div>
     </AuthProvider>

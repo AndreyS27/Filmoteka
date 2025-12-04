@@ -25,7 +25,11 @@ const Header = () => {
                     <div className="navbar-nav"> {/* Правая часть */}
                         {user ? (
                             <>
-                                <Link to="/profile" className="nav-link">Личный кабинет</Link>
+                                {user.roles?.includes('Admin') ? (
+                                    <Link to="/admin" className="nav-link">Админка</Link>
+                                ) : (
+                                    <Link to="/profile" className="nav-link">Личный кабинет</Link>
+                                )}
                                 <button
                                     onClick={handleLogout}
                                     className="nav-link border-0 bg-transparent"
