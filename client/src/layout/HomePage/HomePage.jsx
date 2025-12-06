@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const baseApiUrl = "https://localhost:7181/api";
 
@@ -64,6 +65,9 @@ const HomePage = () => {
                                         <li className="list-group-item">Режиссер: {film.director}</li>
                                         <li className="list-group-item">Жанр: {film.genre}</li>
                                     </ul>
+                                    <Link to={`/films/${film.id}`} className="btn btn-primary">
+                                        Подробнее
+                                    </Link>
                             </div>
                         </div>
                     ))
