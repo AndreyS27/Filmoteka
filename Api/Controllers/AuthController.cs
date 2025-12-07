@@ -89,5 +89,35 @@ namespace Api.Controllers
                 roles,
             });
         }
+
+        [HttpPost("avatar")]
+        [Authorize]
+        public async Task<IActionResult> UploadAvatar(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("Файл не выбран");
+
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+            var fileExtension = Path.GetExtension(file.FileName).ToLower();
+            if (!allowedExtensions.Contains(fileExtension))
+                return BadRequest("Неверный формат файла");
+
+            var fileName = $"{Guid.NewGuid()}{fileExtension}";
+            var filePath = Path.Combine("wwwroot", "uploads", "avatars", fileName);
+
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            user.AvatarUrl = $"/uploads/avatar/{fileName}";
+            await _userManager.UpdateAsync(user);
+
+            return Ok(new {avatarUrl = user.AvatarUrl});
+        }
     }
 }
