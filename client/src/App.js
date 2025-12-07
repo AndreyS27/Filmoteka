@@ -10,6 +10,7 @@ import AdminProfile from "./layout/AdminProfile/AdminProfile";
 import ProtectedRoute from "./layout/components/ProtectedRoute";
 import UserProfile from "./layout/UserProfile/UserProfile";
 import FilmDetailsPage from "./layout/FilmDetailsPage/FilmDetailsPage";
+import AddFilmPage from "./layout/AddFilmPage/AddFilmPage";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/registration" element={<RegistrationPage />} />
+            <Route path="/admin/films/new" element={<AddFilmPage/>} />
             <Route path="/films/:id" element={<FilmDetailsPage/>} />
             <Route
               path="/profile"

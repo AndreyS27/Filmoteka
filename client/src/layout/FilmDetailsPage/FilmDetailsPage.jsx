@@ -34,19 +34,19 @@ const FilmDetailsPage = () => {
         return <div className="container mt-5 text-danger">{error}</div>;
     }
 
-        const placeholderImageUrl = "https://localhost:7181/uploads/1920x.png";
+    const placeholderImageUrl = "https://localhost:7181/uploads/1920x.png";
 
     const posterUrl = film.posterPath
-        ? `https://localhost:7181/api${film.posterPath}`
+        ? `https://localhost:7181/${film.posterPath}`
         : placeholderImageUrl;
 
     return (
         <div className="container-lg mt-5">
             <div className="row">
                 <div className="col-3 mt-5">
-                    <img 
-                        className="img-fluid" 
-                        src={posterUrl} 
+                    <img
+                        className="img-fluid"
+                        src={posterUrl}
                         alt={film?.name || "Постер"}>
                     </img>
                 </div>
