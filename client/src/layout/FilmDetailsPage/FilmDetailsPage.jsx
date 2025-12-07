@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 const baseApiUrl = "https://localhost:7181/api";
 
 const FilmDetailsPage = () => {
-    const {id} = useParams();
+    const { id } = useParams();
     const [film, setFilm] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -34,21 +34,30 @@ const FilmDetailsPage = () => {
         return <div className="container mt-5 text-danger">{error}</div>;
     }
 
-    return(
-        <div className="container-lg">
+        const placeholderImageUrl = "https://localhost:7181/uploads/1920x.png";
+
+    const posterUrl = film.posterPath
+        ? `https://localhost:7181/api${film.posterPath}`
+        : placeholderImageUrl;
+
+    return (
+        <div className="container-lg mt-5">
             <div className="row">
-                <div className="col-3">
-                    <img className="img-fluid" src="https://placeholder.apptor.studio/20/15/product1.png" alt=""></img>
+                <div className="col-3 mt-5">
+                    <img 
+                        className="img-fluid" 
+                        src={posterUrl} 
+                        alt={film?.name || "Постер"}>
+                    </img>
                 </div>
                 <div className="col">
                     <h1>{film.name}</h1>
                     <p>{film.description}</p>
-                    {film.year}
-                    {film.duration}
-                    {film.country}
-                    {film.genre}
-                    {film.director}
-                    {film.posterPath}
+                    <p>{film.year}</p>
+                    <p>{film.duration}</p>
+                    <p>{film.country}</p>
+                    <p>{film.genre}</p>
+                    <p>{film.director}</p>
                 </div>
             </div>
             <div className="">

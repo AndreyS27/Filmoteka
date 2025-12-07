@@ -43,6 +43,8 @@ const HomePage = () => {
         );
     }
 
+    const placeholderImageUrl = "https://localhost:7181/uploads/1920x.png";
+
     return (
         <div className="container-fluid mt-2">
             <h1>Фильмы</h1>
@@ -50,10 +52,22 @@ const HomePage = () => {
                 {films.length === 0 ? (
                     <p>Список фильмов пуст</p>
                 ) : (
-                    films.map((film) => (
-                        <div className="col" key={film.id}>
-                            <div className="card m-3" >
-                                <img src="https://placeholder.apptor.studio/20/15/product1.png" className="card-img-top" alt="..."></img>
+                    films.map((film) => {
+                        const posterUrl = film.posterPath
+                            ? `https://localhost:7181${film.posterPath}`
+                            : placeholderImageUrl;
+
+                        return (
+                            <div className="col" key={film.id}>
+                                <div className="card m-3" >
+                                    <img
+                                        src={posterUrl}
+                                        className="card-img-top"
+                                        alt={film.name}
+                                        onError={(e) => {
+                                            e.currentTarget.src = placeholderImageUrl;
+                                        }}>
+                                    </img>
                                     <div className="card-body">
                                         <h5 className="card-title">{film.name}</h5>
                                         <p className="card-text">{film.description.slice(0, 50)}...</p>
@@ -65,12 +79,13 @@ const HomePage = () => {
                                         <li className="list-group-item">Режиссер: {film.director}</li>
                                         <li className="list-group-item">Жанр: {film.genre}</li>
                                     </ul>
-                                    <Link to={`/films/${film.id}`} className="btn btn-primary">
+                                    <Link to={`/films/${film.id}`} className="btn btn-light">
                                         Подробнее
                                     </Link>
+                                </div>
                             </div>
-                        </div>
-                    ))
+                        );
+                    })
                 )}
             </div>
         </div>

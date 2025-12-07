@@ -9,7 +9,7 @@ import AdminRoute from "./layout/components/AdminRoute";
 import AdminProfile from "./layout/AdminProfile/AdminProfile";
 import ProtectedRoute from "./layout/components/ProtectedRoute";
 import UserProfile from "./layout/UserProfile/UserProfile";
-import FilmDetailsPage from "./layout/FilmDetailPage/FilmDetailPage";
+import FilmDetailsPage from "./layout/FilmDetailsPage/FilmDetailsPage";
 
 const App = () => {
   return (
