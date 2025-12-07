@@ -44,6 +44,21 @@ const AdminProfile = () => {
         );
     }
 
+    const handleDeleteFilm = async (filmId) => {
+        if (!window.confirm('Вы уверены, что хотите удалить этот фильм?')) return;
+
+        try {
+            const token = localStorage.getItem('authToken');
+            await axios.delete(`${baseApiUrl}/films/${filmId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setFilms(prev => prev.filter(film => film.id !== filmId));
+        } catch (err) {
+            console.error('Error deleting film:', err);
+            alert('Ошибка при удалении фильма');
+        }
+    };
+
     return (
         <div className="container-fluid mt-2">
             <h1>Admin Page</h1>
@@ -89,7 +104,10 @@ const AdminProfile = () => {
                                         >
                                             Изменить
                                         </Link>
-                                        <button className="btn btn-sm btn-outline-danger">
+                                        <button 
+                                            className="btn btn-sm btn-outline-danger"
+                                            onClick={() => handleDeleteFilm(film.id)}
+                                        >
                                             Удалить
                                         </button>
                                     </div>
