@@ -2,7 +2,9 @@
 using Api.ModelDto;
 using Api.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Api.Controllers
 {
@@ -87,6 +89,46 @@ namespace Api.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPost("{filmId}/poster")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UploadPoster(int filmId, IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("Файл не выбран");
+
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+            var fileExtension = Path.GetExtension(file.FileName).ToLower();
+            if (!allowedExtensions.Contains(fileExtension))
+                return BadRequest("Неверный формат файла");
+
+            var fileName = $"{Guid.NewGuid()}{fileExtension}";
+            var filePath = Path.Combine("wwwroot", "uploads", "posters", fileName);
+
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var film = await _filmService.GetFilmByIdAsync(filmId);
+            var filmDto = new FilmDto
+            {
+                Name = film.Name,
+                Year = film.Year,
+                Duration = film.Duration,
+                Country = film.Country,
+                Genre = film.Genre,
+                Director = film.Director,
+                Description = film.Description,
+                PosterPath = $"/uploads/posters/{fileName}"
+            };
+
+            await _filmService.UpdateFilmAsync(filmId, filmDto);
+
+            return Ok(new { posterUrl = film.PosterPath });
         }
     }
 }
