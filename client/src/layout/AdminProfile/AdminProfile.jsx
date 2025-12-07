@@ -83,9 +83,12 @@ const AdminProfile = () => {
                                     </ul>
 
                                     <div className="card-body">
-                                        <button className="btn btn-sm btn-outline-primary me-2">
+                                        <Link
+                                            to={`/admin/films/${film.id}/edit`}
+                                            className="btn btn-sm btn-outline-primary me-2"
+                                        >
                                             Изменить
-                                        </button>
+                                        </Link>
                                         <button className="btn btn-sm btn-outline-danger">
                                             Удалить
                                         </button>
