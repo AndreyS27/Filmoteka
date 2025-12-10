@@ -114,7 +114,7 @@ namespace Api.Controllers
 
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var user = await _userManager.FindByIdAsync(userId.ToString());
-            user.AvatarUrl = $"/uploads/avatar/{fileName}";
+            user.AvatarUrl = $"/uploads/avatars/{fileName}";
             await _userManager.UpdateAsync(user);
 
             return Ok(new {avatarUrl = user.AvatarUrl});
