@@ -12,7 +12,6 @@ const FilmReviews = ({ filmId }) => {
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                const token = localStorage.getItem('authToken');
                 const response = await axios.get(`${baseApiUrl}/reviews/films/${filmId}`)
                 setReviews(response.data);
             } catch (err) {

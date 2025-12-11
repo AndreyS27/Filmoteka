@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import FilmReviews from "../components/FilmReviews";
+import { useAuth } from "../context/AuthContext";
 
 const baseApiUrl = "https://localhost:7181/api";
 
@@ -10,6 +11,7 @@ const FilmDetailsPage = () => {
     const [film, setFilm] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [value, setValue] = useState(5);
 
     useEffect(() => {
         const fetchFilm = async () => {
@@ -65,6 +67,45 @@ const FilmDetailsPage = () => {
                 <h4>Рецензии зрителей</h4>
                 <FilmReviews filmId={id} />
             </div>
+            <form className="container col-md-6 mb-3">
+                <h4>Написать рецензию</h4>
+                <div className="mb-3">
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="reviewHeader"
+                        placeholder="Заголовок"
+                    >
+                    </input>
+                </div>
+                <div className="mb-3">
+                    <textarea 
+                        className="form-control" 
+                        id="exampleFormControlTextarea1" 
+                        rows="3"
+                        placeholder="Текст">
+                    </textarea>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="range3" className="form-label">Оценка</label>
+                    <input
+                        type="range"
+                        className="form-range"
+                        min="1"
+                        max="10"
+                        step="1"
+                        value={value}
+                        id="range3"
+                        onChange={(e) => setValue(e.target.value)}>
+                    </input>
+                    <output htmlFor="range3" id="rangeValue" aria-hidden="true">
+                        {value}
+                    </output>
+                </div>
+                <div className="text-center">
+                    <button type="submit" className="btn btn-outline-dark">Опубликовать рецензию</button>
+                </div>
+            </form>
         </div>
     );
 };
