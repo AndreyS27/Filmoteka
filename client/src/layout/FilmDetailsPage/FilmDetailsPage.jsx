@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import FilmReviews from "../components/FilmReviews";
 
 const baseApiUrl = "https://localhost:7181/api";
 
@@ -34,7 +35,7 @@ const FilmDetailsPage = () => {
         return <div className="container mt-5 text-danger">{error}</div>;
     }
 
-    const placeholderImageUrl = "https://localhost:7181/uploads/1920x.png";
+    const placeholderImageUrl = "https://localhost:7181/uploads/1920x1080.png";
 
     const posterUrl = film.posterPath
         ? `https://localhost:7181/${film.posterPath}`
@@ -60,8 +61,9 @@ const FilmDetailsPage = () => {
                     <p>{film.director}</p>
                 </div>
             </div>
-            <div className="">
+            <div className="container-lg mt-5">
                 <h4>Рецензии зрителей</h4>
+                <FilmReviews filmId={id} />
             </div>
         </div>
     );

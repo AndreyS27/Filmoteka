@@ -43,7 +43,7 @@ const HomePage = () => {
         );
     }
 
-    const placeholderImageUrl = "https://localhost:7181/uploads/1920x.png";
+    const placeholderImageUrl = "https://localhost:7181/uploads/1920x1080.png";
 
     return (
         <div className="container-fluid mt-2">
