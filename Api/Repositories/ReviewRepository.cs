@@ -52,11 +52,12 @@ namespace Api.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Review?> UpdateReviewAsync(int reviewId, string text, int rating)
+        public async Task<Review?> UpdateReviewAsync(int reviewId, string title, string text, int rating)
         {
             var review = await _context.Reviews.FindAsync(reviewId);
             if (review == null) return null;
 
+            review.Title = title;
             review.Text = text;
             review.Rating = rating;
 

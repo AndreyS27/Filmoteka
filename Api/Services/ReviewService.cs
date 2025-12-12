@@ -18,6 +18,7 @@ namespace Api.Services
         {
             var review = new Review
             {
+                Title = dto.Title,
                 Text = dto.Text,
                 Rating = dto.Rating,
                 UserId = userId,
@@ -29,6 +30,7 @@ namespace Api.Services
             return new ReviewDto
             {
                 Id = createdReview.Id,
+                Title = createdReview.Title,
                 Text = createdReview.Text,
                 Rating = createdReview.Rating,
                 Author = new ReviewAuthorDto
@@ -57,6 +59,7 @@ namespace Api.Services
             return new ReviewDto
             {
                 Id = review.Id,
+                Title = review.Title,
                 Text = review.Text,
                 Rating = review.Rating,
                 Author = new ReviewAuthorDto
@@ -74,6 +77,7 @@ namespace Api.Services
             return reviews.Select(r => new ReviewDto
             {
                 Id = r.Id,
+                Title = r.Title,
                 Text = r.Text,
                 Rating = r.Rating,
                 Author = new ReviewAuthorDto
@@ -98,7 +102,7 @@ namespace Api.Services
                 throw new UnauthorizedReviewEditException();
             }
 
-            var updatedReview = await _reposritory.UpdateReviewAsync(id, dto.Text, dto.Rating);
+            var updatedReview = await _reposritory.UpdateReviewAsync(id, dto.Title, dto.Text, dto.Rating);
 
             if (updatedReview == null)
             {
@@ -107,6 +111,7 @@ namespace Api.Services
 
             return new ReviewUpdateDto
             {
+                Title = dto.Title,
                 Rating = dto.Rating,
                 Text = dto.Text
             };
