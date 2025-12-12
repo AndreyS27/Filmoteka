@@ -60,6 +60,7 @@ const FilmReviews = ({ filmId }) => {
                                         {review.rating}/10
                                     </small>
                                 </h6>
+                                <h5>{review.title}</h5>
                                 <p className="card-text">{review.text}</p>
                             </div>
                         </div>
