@@ -64,5 +64,13 @@ namespace Api.Repositories
             await _context.SaveChangesAsync();
             return review;
         }
+
+        public async Task<IEnumerable<Review>> GetReviewByUserIdAsync(int userId)
+        {
+            return await _context.Reviews
+                .Include(r => r.Film)
+                .Where(r => r.UserId == userId)
+                .ToListAsync();
+        }
     }
 }

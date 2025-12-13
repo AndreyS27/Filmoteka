@@ -81,9 +81,30 @@ namespace Api.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int currentUserId))
+            {
+                return Unauthorized();
+            }
+
             bool res = await _reviewService.DeleteReviewAsync(id);
             if (res) return NoContent();
             return NotFound();
+        }
+
+        [HttpGet("myreviews")]
+        [Authorize]
+        public async Task<ActionResult> GetReviewByUserId()
+        {
+            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(id) || !int.TryParse(id, out int currentUserId))
+            {
+                return Unauthorized();
+            }
+
+            var reviews = await _reviewService.GetReviewByUserIdAsync(currentUserId);
+
+            return Ok(reviews);
         }
     }
 }

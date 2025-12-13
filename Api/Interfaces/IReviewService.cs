@@ -10,5 +10,6 @@ namespace Api.Interfaces
         Task<ReviewDto> AddReviewAsync(int userId, int filmId, CreateReviewDto createReviewDto);
         Task<ReviewUpdateDto?> UpdateReviewAsync(int id, int userId, ReviewUpdateDto dto);
         Task<bool> DeleteReviewAsync(int id);
+        Task<IEnumerable<UserReviewDto>> GetReviewByUserIdAsync(int userId);
     }
 }

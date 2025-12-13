@@ -116,5 +116,19 @@ namespace Api.Services
                 Text = dto.Text
             };
         }
+
+        public async Task<IEnumerable<UserReviewDto>> GetReviewByUserIdAsync(int userId)
+        {
+            var userReviews = await _reposritory.GetReviewByUserIdAsync(userId);
+
+            return userReviews.Select(u => new UserReviewDto
+            {
+                Id = u.Id,
+                Title = u.Title,
+                Text = u.Text,
+                Rating = u.Rating,
+                FilmName = u.Film.Name
+            }).ToList();
+        }
     }
 }
