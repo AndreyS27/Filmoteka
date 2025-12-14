@@ -12,6 +12,7 @@ import UserProfile from "./layout/UserProfile/UserProfile";
 import FilmDetailsPage from "./layout/FilmDetailsPage/FilmDetailsPage";
 import AddFilmPage from "./layout/AddFilmPage/AddFilmPage";
 import EditFilmPage from "./layout/EditFilmPage/EditFilmPage";
+import UserReviews from "./layout/UserReviews/UserReviews";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/admin/films/new" element={<AddFilmPage />} />
           <Route path="/admin/films/:id/edit" element={<EditFilmPage />} />
           <Route path="/films/:id" element={<FilmDetailsPage />} />
+          <Route path="/profile/reviews" element={<UserReviews />} />
           <Route
             path="/profile"
             element={

@@ -1,12 +1,27 @@
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 const baseApiUrl = 'https://localhost:7181/api';
 const avatarPlaceholder = 'https://localhost:7181/uploads/1920x1080.png'; // Заглушка для аватара
 
 const UserProfile = () => {
   const { user, login } = useAuth();
+  const [ reviews, setReviews ] = useState([]);
+
+  
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const token = localStorage.getItem('authToken');
+      const response = await axios.get(`${baseApiUrl}/reviews/myreviews`, {
+        headers: { Authorization: `Bearer ${token}`}
+      });
+      setReviews(Array.isArray(response.data) ? response.data : []);
+    };
+
+    fetchReviews();
+  }, []);
 
   const handleAvatarUpload = async (e) => {
     const file = e.target.files[0];
@@ -43,6 +58,7 @@ const UserProfile = () => {
     return <div className="container mt-5">Загрузка...</div>;
   }
 
+
   return (
     <div className="container mt-4">
       <h1>Личный кабинет</h1>
@@ -77,7 +93,7 @@ const UserProfile = () => {
 
               <div>
                 <Link to="/profile/reviews" className="text-decoration-none">
-                  Мои отзывы (0)
+                  Мои отзывы ({reviews.length})
                 </Link>
               </div>
             </div>
