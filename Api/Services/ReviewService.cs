@@ -127,6 +127,7 @@ namespace Api.Services
                 Title = u.Title,
                 Text = u.Text,
                 Rating = u.Rating,
+                FilmId = u.FilmId,
                 FilmName = u.Film.Name
             }).ToList();
         }

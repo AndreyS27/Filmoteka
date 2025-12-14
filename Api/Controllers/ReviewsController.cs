@@ -94,7 +94,7 @@ namespace Api.Controllers
 
         [HttpGet("myreviews")]
         [Authorize]
-        public async Task<ActionResult> GetReviewByUserId()
+        public async Task<ActionResult<IEnumerable<UserReviewDto>>> GetReviewByUserId()
         {
             var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(id) || !int.TryParse(id, out int currentUserId))
