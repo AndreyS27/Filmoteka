@@ -119,5 +119,27 @@ namespace Api.Controllers
 
             return Ok(new {avatarUrl = user.AvatarUrl});
         }
+
+        [HttpDelete("delete-account")]
+        [Authorize]
+        public async Task<IActionResult> DeleteAccount()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int currentUserId))
+            {
+                return Unauthorized();
+            }
+
+            var user = await _userManager.FindByIdAsync(currentUserId.ToString());
+            if (user == null)
+                return NotFound();
+
+            var result = await _userManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+                return NoContent();
+
+            return BadRequest(result);
+        }
     }
 }
