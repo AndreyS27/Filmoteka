@@ -1,5 +1,5 @@
 import { useAuth } from '../context/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
@@ -7,9 +7,9 @@ const baseApiUrl = 'https://localhost:7181/api';
 const avatarPlaceholder = 'https://localhost:7181/uploads/1920x1080.png'; // Заглушка для аватара
 
 const UserProfile = () => {
-  const { user, login } = useAuth();
+  const { user, login, logout } = useAuth();
   const [ reviews, setReviews ] = useState([]);
-
+  const navigate = useNavigate();
   
   useEffect(() => {
     const fetchReviews = async () => {
@@ -22,6 +22,23 @@ const UserProfile = () => {
 
     fetchReviews();
   }, []);
+
+  const handleDeleteAccount = async () => {
+    if (!window.confirm('Вы уверены, что хотите удалить аккаунт? Это действие нельзя отменить!')) return;
+
+    try {
+      const token = localStorage.getItem('authToken');
+      await await axios.delete(`${baseApiUrl}/auth/delete-account`, {
+        headers: { Authorization: `Bearer ${token}`}
+      });
+
+      logout();
+      navigate('/');
+    } catch (error) {
+      console.error('Delete account error:', error);
+      alert('При удалении аккаунта произошла ошибка');
+    }
+  };
 
   const handleAvatarUpload = async (e) => {
     const file = e.target.files[0];
@@ -130,7 +147,7 @@ const UserProfile = () => {
               <div className="mt-3">
                 <button
                   className="btn btn-danger"
-                  onClick={() => alert('Удаление аккаунта пока не реализовано')}
+                  onClick={handleDeleteAccount}
                 >
                   Удалить аккаунт
                 </button>
