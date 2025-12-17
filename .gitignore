@@ -509,13 +509,9 @@ appsettings.Development.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-/Api/wwwroot/uploads/avatars/5508efb1-1312-4a4b-901e-9c97767da902.png
+
 
 # Ignore all files in avatars and posters foldes
-wwwroot/uploads/avatars/*
-wwwroot/uploads/posters/*
-/Api/wwwroot/uploads/posters/de4f1582-e043-4af5-a1d1-3d8d3acffd7e.png
-/Api/wwwroot/uploads/posters/c7b51d9e-34dc-4996-909a-32cf2912d175.png
-/Api/wwwroot/uploads/posters/8b0a958b-8249-4a2b-9aac-317fcd873b23.png
-/Api/wwwroot/uploads/avatars/0a685950-5a6c-448f-803b-85a607bd0660.png
-/Api/wwwroot/uploads/avatars/892bf1c0-65e2-4836-baa0-e6ac3c63be3d.png
+/Api/wwwroot/uploads/avatars/*
+/Api/wwwroot/uploads/posters/*
+

@@ -102,9 +102,15 @@ namespace Api.Controllers
             if (!allowedExtensions.Contains(fileExtension))
                 return BadRequest("Неверный формат файла");
 
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound();
+
             var fileName = $"{Guid.NewGuid()}{fileExtension}";
             var filePath = Path.Combine("wwwroot", "uploads", "avatars", fileName);
-
             Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 
             using (var stream = new FileStream(filePath, FileMode.Create))
@@ -112,12 +118,47 @@ namespace Api.Controllers
                 await file.CopyToAsync(stream);
             }
 
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (!string.IsNullOrEmpty(user.AvatarUrl))
+            {
+                var oldFilePath = Path.Combine("wwwroot", user.AvatarUrl.TrimStart('/'));
+                if (System.IO.File.Exists(oldFilePath))
+                {
+                    System.IO.File.Delete(oldFilePath);
+                }
+            }
+
             user.AvatarUrl = $"/uploads/avatars/{fileName}";
             await _userManager.UpdateAsync(user);
 
-            return Ok(new {avatarUrl = user.AvatarUrl});
+            return Ok(new {avatarUrl = user.AvatarUrl });
+        }
+
+        [HttpDelete("avatar")]
+        [Authorize]
+        public async Task<IActionResult> DeleteAvatar()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound();
+
+            if (string.IsNullOrEmpty(user.AvatarUrl))
+            {
+                return NotFound();
+            }
+
+            var filePath = Path.Combine("wwwroot", user.AvatarUrl.TrimStart('/'));
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
+
+            user.AvatarUrl = "";
+            await _userManager.UpdateAsync(user);
+
+            return NoContent();
         }
 
         [HttpDelete("delete-account")]

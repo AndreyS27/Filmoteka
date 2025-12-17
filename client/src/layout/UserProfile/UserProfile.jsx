@@ -71,6 +71,20 @@ const UserProfile = () => {
     }
   };
 
+  const handleDeleteAvatar = async () => {
+    try {
+      const token = localStorage.getItem('authToken');
+      await axios.delete(`${baseApiUrl}/auth/avatar`, {
+        headers: { Authorization: `Bearer ${token} `}
+      });
+
+      const updatedUser = { ...user, avatarUrl: ''};
+      login(updatedUser, token);
+    } catch (error) {
+      console.error('Delete avatar error:', error);
+    }
+  };
+
   if (!user) {
     return <div className="container mt-5">Загрузка...</div>;
   }
@@ -97,7 +111,7 @@ const UserProfile = () => {
 
               {/* Кнопка загрузки аватара */}
               <div className="mb-3">
-                <label className="btn btn-outline-primary mb-0">
+                <label className="btn btn-outline-primary mb-0 w-50">
                   Загрузить аватар
                   <input
                     type="file"
@@ -106,6 +120,16 @@ const UserProfile = () => {
                     style={{ display: 'none' }}
                   />
                 </label>
+              </div>
+
+              {/* Кнопка удаления аватара */}
+              <div className="mb-3">
+                <button 
+                  className="btn btn-outline-danger mb-0 w-50"
+                  onClick={handleDeleteAvatar}
+                >
+                  Удалить аватар
+                </button>
               </div>
 
               <div>
