@@ -90,6 +90,37 @@ namespace Api.Controllers
             });
         }
 
+        [HttpPut("username")]
+        [Authorize]
+        public async Task<IActionResult> ChangeUsername([FromBody] string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                return BadRequest("Имя пользователя не может быть пустым");
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) 
+                return NotFound();
+
+            if (string.Equals(user.UserName, username, StringComparison.OrdinalIgnoreCase))
+                return Ok(new {uesrname = user.UserName});
+
+            var existingUserName = await _userManager.FindByNameAsync(username);
+            if (existingUserName != null)
+                return BadRequest("Имя пользователя уже занято");
+
+            user.UserName = username;
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+                return Ok(new {userName = user.UserName});
+
+            return BadRequest($"Ошибка обновления: {result}");
+        }
+
         [HttpPost("avatar")]
         [Authorize]
         public async Task<IActionResult> UploadAvatar(IFormFile file)

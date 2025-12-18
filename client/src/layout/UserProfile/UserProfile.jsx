@@ -10,6 +10,13 @@ const UserProfile = () => {
   const { user, login, logout } = useAuth();
   const [ reviews, setReviews ] = useState([]);
   const navigate = useNavigate();
+
+  // Состояние для режима редактирования username
+  const [isEditingUsername, setIsEditingUsername] = useState(false);
+  const [newUsername, setNewUsername] = useState(user?.userName || '');
+  const [usernameLoading, setUsernameLoading] = useState(false);
+  const [usernameError, setUsernameError] = useState('');
+  const [usernameSuccess, setUsernameSuccess] = useState(false);
   
   useEffect(() => {
     const fetchReviews = async () => {
@@ -22,6 +29,56 @@ const UserProfile = () => {
 
     fetchReviews();
   }, []);
+
+  const handleUsernameChange = async () => {
+    if (!newUsername.trim()) {
+      setUsernameError('Имя пользователя не может быть пустым');
+      return;
+    }
+
+    if (newUsername === user.userName) {
+      setIsEditingUsername(false);
+      return;
+    }
+
+    setUsernameLoading(true);
+    setUsernameError('');
+    setUsernameSuccess(false);
+
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await axios.put(
+        `${baseApiUrl}/auth/username`,
+        newUsername,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      const updatedUser = { ...user, userName: response.data.userName};
+      login(updatedUser, token);
+
+      setUsernameSuccess(true);
+      setIsEditingUsername(false);
+    } catch (error) {
+      console.error('Username update error:', error);
+      setUsernameError(
+        error.response?.result
+      );
+    } finally {
+      setUsernameLoading(false);
+    }
+  };
+
+  const handleCancelUserName = () => {
+    setNewUsername(user.userName);
+    setIsEditingUsername(false);
+    setUsernameError('');
+    setUsernameSuccess(false);
+  };
 
   const handleDeleteAccount = async () => {
     if (!window.confirm('Вы уверены, что хотите удалить аккаунт? Это действие нельзя отменить!')) return;
@@ -160,12 +217,55 @@ const UserProfile = () => {
 
               <div className="mb-3">
                 <label className="form-label fw-bold">Имя пользователя</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={user.userName}
-                  readOnly
-                />
+
+                {isEditingUsername ? (
+                  <>
+                    <input 
+                      type="text" 
+                      className="form-control"
+                      value={newUsername}
+                      onChange={(e) => setNewUsername(e.target.value)}
+                      disabled={usernameLoading}
+                    />
+                    <div className="d-flex gap-2 mt-2">
+                      <button
+                        className="btn btn-sm btn-primary"
+                        onClick={handleUsernameChange}
+                        disabled={usernameLoading}
+                      >
+                        {usernameLoading ? 'Сохранение...' : 'Сохранить'}
+                      </button>
+                      <button
+                        className="btn btn-sm btn-secondary"
+                        onClick={handleCancelUserName}
+                        disabled={usernameLoading}
+                      >
+                        Отмена
+                      </button>
+                    </div>
+                    {usernameError && (
+                      <div className="text-danger mt-2">{usernameError}</div>
+                    )}
+                    {usernameSuccess && (
+                      <div className="text-success mt-2">Имя успешно изменено!</div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={user.userName}
+                      readOnly
+                    />
+                    <button
+                      className="btn btn-sm btn-outline-secondary mt-2"
+                      onClick={() => setIsEditingUsername(true)}
+                    >
+                      Изменить username
+                    </button>
+                  </>
+                )} 
               </div>
 
               <div className="mt-3">
