@@ -66,7 +66,9 @@ const UserProfile = () => {
     } catch (error) {
       console.error('Username update error:', error);
       setUsernameError(
-        error.response?.result
+        error.response?.data?.message ||
+        error.response?.data ||
+        'Ошибка при изменении имени пользователя'
       );
     } finally {
       setUsernameLoading(false);

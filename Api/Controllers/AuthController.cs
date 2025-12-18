@@ -118,7 +118,8 @@ namespace Api.Controllers
             if (result.Succeeded)
                 return Ok(new {userName = user.UserName});
 
-            return BadRequest($"Ошибка обновления: {result}");
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            return BadRequest($"Ошибка обновления: {errors}");
         }
 
         [HttpPost("avatar")]
