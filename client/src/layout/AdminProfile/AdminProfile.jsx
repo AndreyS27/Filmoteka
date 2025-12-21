@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const baseApiUrl = "https://localhost:7181/api";
-const placeholderImageUrl = "https://localhost:7181/uploads/1920x.png";
+const placeholderImageUrl = "/1920x1080.png";
 
 const AdminProfile = () => {
     const [films, setFilms] = useState([]);

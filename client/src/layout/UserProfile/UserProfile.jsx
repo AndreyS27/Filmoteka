@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 const baseApiUrl = 'https://localhost:7181/api';
-const avatarPlaceholder = 'https://localhost:7181/uploads/1920x1080.png'; // Заглушка для аватара
+const avatarPlaceholder = '/1920x1080.png'; // Заглушка для аватара
 
 const UserProfile = () => {
   const { user, login, logout } = useAuth();

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const baseApiUrl = 'https://localhost:7181/api';
-const avatarPlaceholder = 'https://localhost:7181/uploads/1920x1080.png';
+const avatarPlaceholder = '/1920x1080.png';
 
 const FilmReviews = ({ filmId }) => {
     const [reviews, setReviews] = useState([]);

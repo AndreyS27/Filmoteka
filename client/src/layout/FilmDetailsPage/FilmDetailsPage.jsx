@@ -45,7 +45,7 @@ const FilmDetailsPage = () => {
         return <div className="container mt-5 text-danger">{error}</div>;
     }
 
-    const placeholderImageUrl = "https://localhost:7181/uploads/1920x1080.png";
+    const placeholderImageUrl = "/1920x1080.png";
 
     const posterUrl = film.posterPath
         ? `https://localhost:7181/${film.posterPath}`
