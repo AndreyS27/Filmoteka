@@ -15,9 +15,36 @@ namespace Api.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Film>> GetAllFilmsAsync()
+        public async Task<IEnumerable<Film>> GetAllFilmsAsync(string? country = null, string? genre = null, string? sortBy = null)
         {
-            return await _context.Films.ToListAsync();
+            var films = await _context.Films.ToListAsync();
+
+            // Фильтрация в памяти
+            if (!string.IsNullOrEmpty(country))
+            {
+                films = films.Where(f =>
+                    f.Country.Split(',')
+                        .Any(c => c.Trim().Equals(country.Trim(), StringComparison.OrdinalIgnoreCase)))
+                    .ToList();
+            }
+
+            if (!string.IsNullOrEmpty(genre))
+            {
+                films = films.Where(f =>
+                    f.Genre.Split(',')
+                        .Any(g => g.Trim().Equals(genre.Trim(), StringComparison.OrdinalIgnoreCase)))
+                    .ToList();
+            }
+
+            // Сортировка
+            films = sortBy?.ToLowerInvariant() switch
+            {
+                "year_asc" => films.OrderBy(f => f.Year).ToList(),
+                "year_desc" => films.OrderByDescending(f => f.Year).ToList(),
+                _ => films.OrderBy(f => f.Id).ToList()
+            };
+
+            return films;
         }
 
         public async Task<Film?> GetFilmByIdAsync(int id)

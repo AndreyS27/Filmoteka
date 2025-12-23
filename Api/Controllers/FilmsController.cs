@@ -21,9 +21,12 @@ namespace Api.Controllers
 
         // GET: api/films
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Film>>> GetFilms()
+        public async Task<ActionResult<IEnumerable<Film>>> GetFilms(
+            [FromQuery] string? country = null,
+            [FromQuery] string? genre = null,
+            [FromQuery] string? sortBy = null)
         {
-            var films = await _filmService.GetAllFilmsAsync();
+            var films = await _filmService.GetAllFilmsAsync(country, genre, sortBy);
             return Ok(films);
         }
 
