@@ -20,13 +20,34 @@ namespace Api.Controllers
         }
 
         // GET: api/films
+
+        [HttpGet("filters")]
+        public async Task<ActionResult> GetFilters()
+        {
+            var films = await _filmService.GetAllFilmsAsync();
+
+            var countries = films.SelectMany(f => f.Country.Split(','))
+                .Select(c => c.Trim())
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
+
+            var genres = films.SelectMany(f => f.Genre.Split(','))
+                .Select(g => g.Trim())
+                .Distinct()
+                .OrderBy(g => g)
+                .ToList();
+
+            return Ok(new { countries, genres });
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Film>>> GetFilms(
             [FromQuery] string? country = null,
             [FromQuery] string? genre = null,
             [FromQuery] string? sortBy = null)
         {
-            var films = await _filmService.GetAllFilmsAsync(country, genre, sortBy);
+            var films = await _filmService.GetFilmsAsync(country, genre, sortBy);
             return Ok(films);
         }
 

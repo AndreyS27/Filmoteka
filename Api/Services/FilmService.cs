@@ -13,9 +13,14 @@ namespace Api.Services
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Film>> GetAllFilmsAsync(string? country = null, string? genre = null, string? sortBy = null)
+        public async Task<IEnumerable<Film>> GetAllFilmsAsync()
         {
-            return await _repository.GetAllFilmsAsync(country, genre, sortBy);
+            return await _repository.GetAllFilmsAsync();
+        }
+
+        public async Task<IEnumerable<Film>> GetFilmsAsync(string? country = null, string? genre = null, string? sortBy = null)
+        {
+            return await _repository.GetFilmsAsync(country, genre, sortBy);
         }
 
         public async Task<Film?> GetFilmByIdAsync(int id)

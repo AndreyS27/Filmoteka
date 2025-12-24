@@ -5,7 +5,8 @@ namespace Api.Interfaces
 {
     public interface IFilmService
     {
-        Task<IEnumerable<Film>> GetAllFilmsAsync(string? country = null,
+        Task<IEnumerable<Film>> GetAllFilmsAsync();
+        Task<IEnumerable<Film>> GetFilmsAsync(string? country = null,
             string? genre = null, string? sortBy = null);
         Task<Film?> GetFilmByIdAsync(int id);
         Task<Film> AddFilmAsync(Film film);
