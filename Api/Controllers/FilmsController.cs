@@ -19,8 +19,6 @@ namespace Api.Controllers
             _filmService = filmService;
         }
 
-        // GET: api/films
-
         [HttpGet("filters")]
         public async Task<ActionResult> GetFilters()
         {
@@ -41,6 +39,7 @@ namespace Api.Controllers
             return Ok(new { countries, genres });
         }
 
+        // GET: api/films
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Film>>> GetFilms(
             [FromQuery] string? country = null,
