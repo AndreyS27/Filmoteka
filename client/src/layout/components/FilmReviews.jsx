@@ -1,37 +1,6 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-
-const baseApiUrl = 'https://localhost:7181/api';
 const avatarPlaceholder = '/1920x1080.png';
 
-const FilmReviews = ({ filmId }) => {
-    const [reviews, setReviews] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchReviews = async () => {
-            try {
-                const response = await axios.get(`${baseApiUrl}/reviews/films/${filmId}`)
-                setReviews(response.data);
-            } catch (err) {
-                setError('Не удалось загрузить отзывы');
-                console.error('Reviews fetch error:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchReviews();
-    }, [filmId]); 
-
-    if (loading) {
-        return <p>Загрузка отзывов...</p>;
-    }
-
-    if (error) {
-        return <p className="text-danger">{error}</p>;
-    }
-
+const FilmReviews = ({ reviews }) => {
     if (reviews.length === 0) {
         return <p>Отзывов пока нет. Будьте первым!</p>;
     }

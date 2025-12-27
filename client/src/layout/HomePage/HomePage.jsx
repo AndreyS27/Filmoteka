@@ -15,14 +15,14 @@ const HomePage = () => {
   const fetchFilms = async (filters = {}) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       // Формируем query string только с непустыми фильтрами
       const params = new URLSearchParams();
       if (filters.country) params.append('country', filters.country);
       if (filters.genre) params.append('genre', filters.genre);
       if (filters.sortBy) params.append('sortBy', filters.sortBy);
-      
+
       const url = `${baseApiUrl}/films${params.toString() ? `?${params.toString()}` : ''}`;
       const response = await axios.get(url);
       setFilms(response.data);
@@ -63,10 +63,10 @@ const HomePage = () => {
   return (
     <div className="container-fluid mt-2">
       <h1>Фильмы</h1>
-      
+
       {/* Компонент фильтров */}
       <FilmFilters onSearch={handleSearch} />
-      
+
       {/* Список фильмов */}
       <div className="row row-cols-3">
         {films.length === 0 ? (
