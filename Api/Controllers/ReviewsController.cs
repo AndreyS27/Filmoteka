@@ -106,5 +106,15 @@ namespace Api.Controllers
 
             return Ok(reviews);
         }
+
+        [HttpGet("average-rating/{filmId}")]
+        public async Task<ActionResult<AverageRatingDto>> GetAverageRating(int filmId)
+        {
+            if (filmId <= 0)
+                return BadRequest("Неверный ID фильма");
+
+            var averageRating = await _reviewService.GetAverageRatingByFilmIdAsync(filmId);
+            return Ok(averageRating);
+        }
     }
 }
