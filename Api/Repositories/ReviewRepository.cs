@@ -72,5 +72,20 @@ namespace Api.Repositories
                 .Where(r => r.UserId == userId)
                 .ToListAsync();
         }
+
+        public async Task<double> GetAverageRatingByFilmIdAsync(int filmId)
+        {
+            var average = await _context.Reviews
+                .Where(r => r.FilmId == filmId)
+                .AverageAsync(r => (double?)r.Rating);
+
+            return average ?? 0.0;
+        }
+
+        public async Task<int> GetTotalReviewsByFilmIdAsync(int filmId)
+        {
+            return await _context.Reviews
+                .CountAsync(r => r.FilmId == filmId);
+        }
     }
 }

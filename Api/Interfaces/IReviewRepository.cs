@@ -11,5 +11,7 @@ namespace Api.Interfaces
         Task<Review?> UpdateReviewAsync(int reviewId, string title, string text, int rating);
         Task<bool> DeleteReviewAsync(int id);
         Task<IEnumerable<Review>> GetReviewByUserIdAsync(int userId);
+        Task<double> GetAverageRatingByFilmIdAsync(int filmId);
+        Task<int> GetTotalReviewsByFilmIdAsync(int filmId);
     }
 }
