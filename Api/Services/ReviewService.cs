@@ -131,5 +131,18 @@ namespace Api.Services
                 FilmName = u.Film.Name
             }).ToList();
         }
+
+        public async Task<AverageRatingDto> GetAverageRatingByFilmIdAsync(int filmId)
+        {
+            var averageRating = await _reposritory.GetAverageRatingByFilmIdAsync(filmId);
+            var totalReviews = await _reposritory.GetTotalReviewsByFilmIdAsync(filmId);
+
+            return new AverageRatingDto
+            {
+                FilmId = filmId,
+                AverageRating = averageRating,
+                TotalReviews = totalReviews
+            };
+        }
     }
 }
