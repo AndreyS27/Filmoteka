@@ -20,7 +20,10 @@ namespace Api.Repositories
             return await _context.Films.ToListAsync();
         }
 
-        public async Task<IEnumerable<Film>> GetFilmsAsync(string? country = null, string? genre = null, string? sortBy = null)
+        public async Task<IEnumerable<Film>> GetFilmsAsync(
+            string? country = null, 
+            string? genre = null, 
+            string? sortBy = null)
         {
             var films = await _context.Films.ToListAsync();
 

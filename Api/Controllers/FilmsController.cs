@@ -46,18 +46,16 @@ namespace Api.Controllers
             [FromQuery] string? genre = null,
             [FromQuery] string? sortBy = null)
         {
-            var films = await _filmService.GetFilmsAsync(country, genre, sortBy);
+            var films = await _filmService.GetFilmsWithRatingsAsync(country, genre, sortBy);
             return Ok(films);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Film>> GetFilmById(int id)
         {
-            var film = await _filmService.GetFilmByIdAsync(id);
+            var film = await _filmService.GetFilmByIdWithRatingAsync(id);
             if (film == null)
-            {
                 return NotFound();
-            }
 
             return Ok(film);
         }
