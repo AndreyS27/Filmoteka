@@ -40,14 +40,30 @@ namespace Api.Controllers
         }
 
         // GET: api/films
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Film>>> GetFilms(
+        //    [FromQuery] string? country = null,
+        //    [FromQuery] string? genre = null,
+        //    [FromQuery] string? sortBy = null)
+        //{
+        //    var films = await _filmService.GetFilmsWithRatingsAsync(country, genre, sortBy);
+        //    return Ok(films);
+        //}
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Film>>> GetFilms(
+        public async Task<ActionResult<PagedResult<FilmWithRatingDto>>> GetFilms(
             [FromQuery] string? country = null,
             [FromQuery] string? genre = null,
-            [FromQuery] string? sortBy = null)
+            [FromQuery] string? sortBy = null,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
         {
-            var films = await _filmService.GetFilmsWithRatingsAsync(country, genre, sortBy);
-            return Ok(films);
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+            if (pageSize > 50) pageSize = 50;
+
+            var result = await _filmService.GetFilmsPagedAsync(country, genre, sortBy, page, pageSize);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
@@ -59,6 +75,8 @@ namespace Api.Controllers
 
             return Ok(film);
         }
+
+
 
         // POST: api/films
         // Доступно только админу

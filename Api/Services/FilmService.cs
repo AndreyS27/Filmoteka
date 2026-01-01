@@ -132,6 +132,16 @@ namespace Api.Services
             return await _repository.DeleteFilmAsync(id);
         }
 
+        public async Task<PagedResult<FilmWithRatingDto>> GetFilmsPagedAsync(
+            string? country = null, 
+            string? genre = null, 
+            string? sortBy = null, 
+            int page = 1, 
+            int pageSize = 10)
+        {
+            return await _repository.GetFilmsPagedAsync(country, genre, sortBy, page, pageSize);
+        }
+
         // Вспомогательные методы
         private (string propertyName, bool isDescending) ParseSortField(string field)
         {
@@ -152,6 +162,5 @@ namespace Api.Services
                 _ => film.Id
             };
         }
-
     }
 }

@@ -19,5 +19,11 @@ namespace Api.Interfaces
         Task<Film> AddFilmAsync(Film film);
         Task<Film?> UpdateFilmAsync(int id, FilmDto film);
         Task<bool> DeleteFilmAsync(int id);
+        Task<PagedResult<FilmWithRatingDto>> GetFilmsPagedAsync(
+            string? country = null,
+            string? genre = null,
+            string? sortBy = null,
+            int page = 1,
+            int pageSize = 10);
     }
 }
