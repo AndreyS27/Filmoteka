@@ -15,6 +15,7 @@ namespace Api.Services
             _reviewService = reviewService;
         }
 
+        // GET /api/films?sortBy=rating_desc,year_desc
         public async Task<IEnumerable<FilmWithRatingDto>> GetFilmsWithRatingsAsync(
             string? country = null,
             string? genre = null,
@@ -44,7 +45,7 @@ namespace Api.Services
                 });
             }
 
-            // Многоуровневая сортировка (код из предыдущего ответа)
+            // Многоуровневая сортировка
             if (!string.IsNullOrEmpty(sortBy))
             {
                 var sortFields = sortBy.Split(',');
