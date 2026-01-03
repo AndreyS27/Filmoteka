@@ -2,6 +2,7 @@
 using Api.Interfaces;
 using Api.ModelDto;
 using Api.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Repositories
@@ -156,7 +157,8 @@ namespace Api.Repositories
                 Items = films,
                 TotalCount = totalCount,
                 Page = page,
-                PageSize = pageSize
+                PageSize = pageSize,
+                TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
             };
         }
 
