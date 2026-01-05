@@ -90,6 +90,7 @@ const FilmFilters = ({ onSearch, currentFilters }) => {
           value={filters.sortBy}
           onChange={handleInputChange}
         >
+          <option value="">Без сортировки</option>
           <option value="rating_desc">Рейтинг: Высокий → Низкий</option>
           <option value="rating_asc">Рейтинг: Низкий → Высокий</option>
           <option value="year_desc">Год: Новые → Старые</option>

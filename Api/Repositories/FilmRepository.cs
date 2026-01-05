@@ -165,18 +165,32 @@ namespace Api.Repositories
         private IQueryable<Film> ApplySorting (IQueryable<Film> query, string? sortBy)
         {
             if (string.IsNullOrEmpty(sortBy))
-                return query.OrderByDescending(f => f.Id);
+                return query.OrderBy(f => f.Id);
 
             var sortLower = sortBy.ToLowerInvariant();
 
             return sortLower switch
             {
-                "year_asc" => query.OrderBy(f => f.Year),
-                "year_desc" => query.OrderByDescending(f => f.Year),
-                "rating_asc" => query.OrderBy(f =>
-                    _context.Reviews.Where(r => r.FilmId == f.Id).Average(r => (double?)r.Rating) ?? 0),
-                "rating_desc" => query.OrderByDescending(f =>
-                    _context.Reviews.Where(r => r.FilmId == f.Id).Average(r => (double?)r.Rating) ?? 0),
+                "year_asc" => query
+                    .OrderBy(f => f.Year)
+                    .ThenBy(f => f.Id),
+
+                "year_desc" => query
+                    .OrderByDescending(f => f.Year)
+                    .ThenBy(f => f.Id),
+
+                "rating_asc" => query
+                    .OrderBy(f => _context.Reviews
+                        .Where(r => r.FilmId == f.Id)
+                        .Average(r => (double?)r.Rating) ?? 0)
+                    .ThenBy(f => f.Id),
+
+                "rating_desc" => query
+                    .OrderByDescending(f => _context.Reviews
+                        .Where(r => r.FilmId == f.Id)
+                        .Average(r => (double?)r.Rating) ?? 0)
+                    .ThenBy(f => f.Id),
+
                 _ => query.OrderByDescending(f => f.Id)
             };
         }

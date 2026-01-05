@@ -20,7 +20,7 @@ const HomePage = () => {
   const [currentFilters, setCurrentFilters] = useState({
     country: '',
     genre: '',
-    sortBy: 'rating_desc'
+    sortBy: ''
   });
 
   const [loading, setLoading] = useState(true);
@@ -65,18 +65,16 @@ const HomePage = () => {
   // Загружаем первую страницу при монтировании
   useEffect(() => {
     fetchFilms(currentFilters, 1);
-  }, []);
+  }, [currentFilters]);
 
   // Обработчик поиска (сбрасываем на первую страницу)
   const handleSearch = (filters) => {
     fetchFilms(filters, 1);
-    // window.scrollTo(0, 0);
   };
 
   // Обработчик смены страницы (использует текущие фильтры)
   const handlePageChange = (page) => {
     fetchFilms(currentFilters, page);
-    // window.scrollTo(0, 0);
   };
 
   if (loading && pagedData.items.length === 0) {
