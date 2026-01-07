@@ -39,6 +39,15 @@ namespace Api.Controllers
             return Ok(new { countries, genres });
         }
 
+        [HttpGet("admin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<IEnumerable<Film>>> GetAllFilmsAsync()
+        {
+            var films = await _filmService.GetAllFilmsAsync();
+
+            return Ok(films);
+        }
+
         // GET: api/films
         //[HttpGet]
         //public async Task<ActionResult<IEnumerable<Film>>> GetFilms(
