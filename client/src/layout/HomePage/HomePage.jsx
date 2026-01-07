@@ -94,7 +94,7 @@ const HomePage = () => {
   }
 
   return (
-    <div className="container-fluid mt-2">
+    <div className="container-sm mt-2">
       <h1>Фильмы</h1>
 
       {/* Компонент фильтров */}
@@ -104,7 +104,7 @@ const HomePage = () => {
       />
 
       {/* Список фильмов */}
-      <div className="row row-cols-3">
+      <div className="row row-cols-1">
         {loading ? (
           <div className='col-12 text-center my-5'>
             <div className='spinner-border text-primary' role='status'>
@@ -121,30 +121,39 @@ const HomePage = () => {
 
             return (
               <div className="col" key={film.id}>
-                <div className="card m-3">
-                  <img
-                    src={posterUrl}
-                    className="card-img-top"
-                    alt={film.name}
-                    onError={(e) => e.currentTarget.src = placeholderImageUrl}
-                  />
-                  <div className="card-body">
-                    <h5 className="card-title">{film.name}</h5>
-                    <p className="card-text">{film.description.slice(0, 50)}...</p>
+                <div className="card mb-3 mt-3">
+                  <div className="row g-0">
+                    <div className="col-3">
+                      <img
+                        src={posterUrl}
+                        className="img-fluid rounded-start"
+                        alt={film.name}
+                        onError={(e) => e.currentTarget.src = placeholderImageUrl}
+                      />
+                    </div>
+                    <div className="col-9">
+                      <div className="card-body">
+                        <h5 className="card-title">{film.name}</h5>
+                        {/* <p className="card-text">{film.description}...</p> */}
+                      </div>
+                      <ul className="list-group list-group-flush">
+                        <li className="list-group-item">Длительность: {film.duration}</li>
+                        <li className="list-group-item">Год выпуска: {film.year}</li>
+                        <li className="list-group-item">Страна: {film.country}</li>
+                        <li className="list-group-item">Режиссер: {film.director}</li>
+                        <li className="list-group-item">Жанр: {film.genre}</li>
+                        <li className="list-group-item">
+                          Оценка: {film.averageRating.toFixed(1)} на основе ({film.totalReviews} отзывов)
+                        </li>
+                      </ul>
+                      <br />
+                      <div className="container">
+                        <Link to={`/films/${film.id}`} className="btn btn-light m-1 w-100">
+                          Подробнее
+                        </Link>
+                      </div>
+                    </div>
                   </div>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item">Длительность: {film.duration}</li>
-                    <li className="list-group-item">Год выпуска: {film.year}</li>
-                    <li className="list-group-item">Страна: {film.country}</li>
-                    <li className="list-group-item">Режиссер: {film.director}</li>
-                    <li className="list-group-item">Жанр: {film.genre}</li>
-                    <li className="list-group-item">
-                      Оценка: {film.averageRating.toFixed(1)} на основе ({film.totalReviews} отзывов)
-                    </li>
-                  </ul>
-                  <Link to={`/films/${film.id}`} className="btn btn-light m-3">
-                    Подробнее
-                  </Link>
                 </div>
               </div>
             );

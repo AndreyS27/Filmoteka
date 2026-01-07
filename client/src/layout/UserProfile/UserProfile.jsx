@@ -151,7 +151,7 @@ const UserProfile = () => {
 
   return (
     <div className="container mt-4">
-      <h1>Личный кабинет</h1>
+      <h2>Личный кабинет</h2>
 
       {/* Основной контейнер с двумя колонками */}
       <div className="row">
