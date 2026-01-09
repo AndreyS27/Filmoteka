@@ -7,7 +7,7 @@ const baseApiUrl = 'https://localhost:7181/api';
 const avatarPlaceholder = '/1920x1080.png'; // Заглушка для аватара
 
 const UserProfile = () => {
-  const { user, login, logout } = useAuth();
+  const { user, login, logout, loading } = useAuth();
   const [ reviews, setReviews ] = useState([]);
   const navigate = useNavigate();
 
@@ -143,6 +143,10 @@ const UserProfile = () => {
       console.error('Delete avatar error:', error);
     }
   };
+
+  if (loading) {
+    return <div className="container mt-5">Загрузка...</div>;
+  }
 
   if (!user) {
     return <div className="container mt-5">Загрузка...</div>;

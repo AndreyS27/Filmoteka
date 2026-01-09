@@ -1,6 +1,6 @@
 import Header from "./layout/Header/Header";
 import { AuthProvider } from "./layout/context/AuthContext";
-import { Route, Routes, } from "react-router-dom";
+import { BrowserRouter, Route, Routes, } from "react-router-dom";
 import LoginPage from "./layout/LoginPage/LoginPage";
 import HomePage from "./layout/HomePage/HomePage";
 import AboutPage from "./layout/AboutPage/AboutPage";
@@ -39,9 +39,9 @@ const App = () => {
           <Route
             path="/admin"
             element={
-              <AdminRoute>
+              <ProtectedRoute adminOnly={true}>
                 <AdminProfile />
-              </AdminRoute>
+              </ProtectedRoute>
             }
           />
         </Routes>

@@ -7,31 +7,35 @@ const AuthContext = createContext();
 
 export const useAuth = () => {
     const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
     return context;
-}
+};
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const token = localStorage.getItem('authToken');
-        if (token) {
-            axios.get(`${baseApiUrl}/auth/me`, {
-                headers: { Authorization: `Bearer ${token}` }
-            })
-                .then(response => {
+        const initializeAuth = async () => {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                try {
+                    const response = await axios.get(`${baseApiUrl}/auth/me`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
                     setUser(response.data);
-                })
-                .catch(() => {
+                } catch (error) {
+                    console.error('Invalid token: ', error);
                     localStorage.removeItem('authToken');
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        } else {
+                    setUser(null);
+                }
+            }
             setLoading(false);
-        }
+        };
+
+        initializeAuth();
     }, []);
 
     const login = (userData, token) => {
