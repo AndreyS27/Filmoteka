@@ -12,7 +12,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - .docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - filmoteka-network
   
@@ -27,7 +27,7 @@ services:
     depends_on:
       - db
     networks:
-      - filmoteka_network
+      - filmoteka-network
   
   client:
     build:
@@ -41,7 +41,7 @@ services:
       - filmoteka-network
 
 volumes:
-  postgres_
+  postgres_data:
 
 networks:
   filmoteka-network:
