@@ -11,7 +11,7 @@ RUN dotnet restore
 COPY Api/ ./Api/
 
 WORKDIR /src/Api
-RUN dotnet publish -c Realease -o /app/publish
+RUN dotnet publish -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 

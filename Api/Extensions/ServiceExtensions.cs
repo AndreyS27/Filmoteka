@@ -99,7 +99,7 @@ namespace Api.Extensions
                 {
                     policy.AllowAnyMethod()
                     .AllowAnyHeader()
-                    .WithOrigins("http://localhost:3000");
+                    .WithOrigins("http://localhost:3000", "http://client:80");
                 });
             });
         }
