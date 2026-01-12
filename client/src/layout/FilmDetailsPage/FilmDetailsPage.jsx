@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import FilmReviews from "../components/FilmReviews";
 import { useAuth } from "../context/AuthContext";
 
-const baseApiUrl = "https://localhost:7181/api";
+const baseApiUrl = process.env.REACT_APP_API_URL;
 
 const FilmDetailsPage = () => {
     const { id } = useParams();
@@ -64,7 +64,7 @@ const FilmDetailsPage = () => {
 
     const placeholderImageUrl = "/1920x1080.png";
     const posterUrl = film.posterPath
-        ? `https://localhost:7181${film.posterPath}`
+        ? `http://localhost:7181${film.posterPath}`
         : placeholderImageUrl;
 
     const handleFormChange = (e) => {

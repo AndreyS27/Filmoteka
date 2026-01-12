@@ -13,7 +13,7 @@ const FilmReviews = ({ reviews }) => {
                         <div className="col-md-2 d-flex align-items-center justify-content-center">
                             <img
                                 src={review.author.avatarUrl
-                                    ? `https://localhost:7181${review.author.avatarUrl}`
+                                    ? `http://localhost:7181${review.author.avatarUrl}`
                                     : avatarPlaceholder}
                                 className="rounded-circle"
                                 alt={review.author.userName}

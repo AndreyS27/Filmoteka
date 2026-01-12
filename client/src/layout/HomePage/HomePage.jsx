@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import FilmFilters from '../components/FilmFilters';
 
-const baseApiUrl = 'https://localhost:7181/api';
+const baseApiUrl = process.env.REACT_APP_API_URL;
 const placeholderImageUrl = '/1920x1080.png';
 
 const HomePage = () => {
@@ -116,7 +116,7 @@ const HomePage = () => {
         ) : (
           pagedData.items.map((film) => {
             const posterUrl = film.posterPath
-              ? `https://localhost:7181${film.posterPath}`
+              ? `http://localhost:7181${film.posterPath}`
               : placeholderImageUrl;
 
             return (

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const baseApiUrl = "https://localhost:7181/api";
+const baseApiUrl = process.env.REACT_APP_API_URL;
 const placeholderImageUrl = "/1920x1080.png";
 
 const AdminProfile = () => {
@@ -74,7 +74,7 @@ const AdminProfile = () => {
                 ) : (
                     films.map((film) => {
                         const posterUrl = film.posterPath
-                            ? `https://localhost:7181${film.posterPath}`
+                            ? `http://localhost:7181${film.posterPath}`
                             : placeholderImageUrl;
 
                         return (

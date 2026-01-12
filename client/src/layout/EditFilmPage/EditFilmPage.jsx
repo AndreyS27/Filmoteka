@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-const baseApiUrl = 'https://localhost:7181/api';
+const baseApiUrl = process.env.REACT_APP_API_URL;
 
 const EditFilmPage = () => {
   const { id } = useParams();
@@ -230,7 +230,7 @@ const EditFilmPage = () => {
               <label className="form-label">Текущий постер</label>
               {formData.posterPath ? (
                 <img 
-                  src={`https://localhost:7181${formData.posterPath}`} 
+                  src={`http://localhost:7181${formData.posterPath}`} 
                   alt="Постер" 
                   className="img-thumbnail"
                   style={{ width: '150px', height: 'auto' }}

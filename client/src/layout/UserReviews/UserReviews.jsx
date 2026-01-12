@@ -3,7 +3,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const baseApiUrl = 'https://localhost:7181/api';
+const baseApiUrl = process.env.REACT_APP_API_URL;
 
 const UserReviews = () => {
   const [reviews, setReviews] = useState([]);

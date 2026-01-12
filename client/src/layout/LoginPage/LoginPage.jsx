@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext"
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
-const baseApiUrl = "https://localhost:7181/api";
+const baseApiUrl = process.env.REACT_APP_API_URL;
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');

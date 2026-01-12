@@ -1,4 +1,5 @@
 using Api.Extensions;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,21 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseHttpsRedirection();
+}
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseSwagger(c =>
+    {
+        c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+        {
+            swaggerDoc.Servers = new List<OpenApiServer>
+            {
+                new OpenApiServer { Url = "http://localhost:7181" }
+            };
+        });
+    });
+    app.UseSwaggerUI();
 }
 
 app.UseCors("CorsPolicy");

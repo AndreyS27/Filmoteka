@@ -13,6 +13,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     networks:
       - filmoteka-network
   
@@ -25,7 +30,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - filmoteka-network
   

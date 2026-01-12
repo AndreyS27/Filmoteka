@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-const baseApiUrl = 'https://localhost:7181/api';
+const baseApiUrl = process.env.REACT_APP_API_URL;
 const avatarPlaceholder = '/1920x1080.png'; // Заглушка для аватара
 
 const UserProfile = () => {
@@ -165,7 +165,7 @@ const UserProfile = () => {
             <div className="card-body text-center">
               {/* Аватар */}
               <img
-                src={user.avatarUrl ? `https://localhost:7181${user.avatarUrl}` : avatarPlaceholder}
+                src={user.avatarUrl ? `http://localhost:7181${user.avatarUrl}` : avatarPlaceholder}
                 alt="Аватар"
                 className="rounded-circle mb-3"
                 style={{ width: '150px', height: '150px', objectFit: 'cover' }}

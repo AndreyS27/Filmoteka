@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const baseApiUrl = 'https://localhost:7181/api';
+const baseApiUrl = process.env.REACT_APP_API_URL;
 
 const FilmFilters = ({ onSearch, currentFilters }) => {
   const [filters, setFilters] = useState({
