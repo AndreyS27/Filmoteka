@@ -483,8 +483,8 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 ###
-appsettings.json
-appsettings.Development.json
+# appsettings.json
+# appsettings.Development.json
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
